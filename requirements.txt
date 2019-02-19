@@ -1,7 +1,6 @@
 mypy
 flake8
 pytest
-os
 time
 subprocess
 threading
