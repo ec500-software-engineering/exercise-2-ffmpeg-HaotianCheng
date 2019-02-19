@@ -10,19 +10,30 @@ completePool = []
 
 inputDirectoryPath = "C:\\Galaxy\\Scripts\\500\\Ex2\\InputVideos"
 for filename in os.listdir(inputDirectoryPath):
-    inputQueue.put(filename)
+    file_720_2Mbps_30fps = (filename, "hd720", "2M", "30")
+    file_480_1Mbps_30fps = (filename, "hd480", "1M", "30")
+    inputQueue.put(file_720_2Mbps_30fps)
+    inputQueue.put(file_480_1Mbps_30fps)
+
+def generateName(filelist):
+    name = filelist[0][:-4]
+    for i in filelist[1:]:
+        name += "_"
+        name += i  
+    return name
 
 def processVideo():
     while not inputQueue.empty():
-        filename = inputQueue.get()
+        file = inputQueue.get()
+        filename = file[0]
         filePath = "InputVideos\\" + filename
-        outputFilePath = "OutputVideos\\" + filename[:-4] + "modified.mp4"
+        outputFilePath = "OutputVideos\\" + generateName(file) + ".mp4"
         threadName = threading.currentThread().getName()
-        print("processing: " + filename + " on " + threadName + "\n")
-        # subprocess.call("ffmpeg -i " + filePath + " -c:a copy -s hd480 -b:v 1M -r 30 " + outputFilePath, shell=True)
-        time.sleep(10)
-        print( filename + " complete\n")
-        completePool.append(filename)
+        print("Processing: " + str(file) + " on " + threadName + "\n")
+        subprocess.call("ffmpeg -i " + filePath + " -c:a copy -s " + file[1] + " -b:v " + file[2] + " -r " + file[3] + " " + outputFilePath, shell=True)
+        # time.sleep(10)
+        print( str(file) + " complete\n")
+        completePool.append(file)
 
     print(threadName + " done\n")
 
