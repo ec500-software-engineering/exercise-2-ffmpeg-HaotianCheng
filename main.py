@@ -1,4 +1,3 @@
-import time
 import queue
 import subprocess
 import threading
