@@ -7,10 +7,11 @@ inputQueue = queue.Queue()
 
 completePool = []
 
-inputDirectoryPath = "C:\\Galaxy\\Scripts\\500\\Ex2\\InputVideos"
+currentDirectory = os.getcwd()
+inputDirectoryPath = currentDirectory + "\\InputVideos"
 for filename in os.listdir(inputDirectoryPath):
-    file_720_2Mbps_30fps = (filename, "hd720", "2M", "30")
-    file_480_1Mbps_30fps = (filename, "hd480", "1M", "30")
+    file_720_2Mbps_30fps = (filename, "hd720", "2M")
+    file_480_1Mbps_30fps = (filename, "hd480", "1M")
     inputQueue.put(file_720_2Mbps_30fps)
     inputQueue.put(file_480_1Mbps_30fps)
 
@@ -29,7 +30,7 @@ def processVideo():
         outputFilePath = "OutputVideos\\" + generateName(file) + ".mp4"
         threadName = threading.currentThread().getName()
         print("Processing: " + str(file) + " on " + threadName + "\n")
-        subprocess.call("ffmpeg -i " + filePath + " -c:a copy -s " + file[1] + " -b:v " + file[2] + " -r " + file[3] + " " + outputFilePath, shell=True)
+        subprocess.call("ffmpeg -i " + filePath + " -c:a copy -s " + file[1] + " -b:v " + file[2] + " " + outputFilePath, shell=True)
         # time.sleep(10)
         print( str(file) + " complete\n")
         completePool.append(file)
