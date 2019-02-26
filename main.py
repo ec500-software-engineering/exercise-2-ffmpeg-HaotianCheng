@@ -1,3 +1,4 @@
+import time
 import queue
 import subprocess
 import threading
@@ -6,6 +7,7 @@ import os
 inputQueue = queue.Queue()
 
 completePool = []
+
 currentDirectory = os.getcwd()
 inputDirectoryPath = currentDirectory + "\\InputVideos"
 
@@ -41,6 +43,11 @@ threadOne = threading.Thread(name = "One", target = processVideo)
 threadTwo = threading.Thread(name = "Two", target = processVideo)
 threadThree = threading.Thread(name = "Three", target = processVideo)
 
-threadOne.start()
-threadTwo.start()
-threadThree.start()
+def startThreeThreads():
+    threadOne.start()
+    threadTwo.start()
+    threadThree.start()
+
+if __name__ == "__main__":
+
+    startThreeThreads()
