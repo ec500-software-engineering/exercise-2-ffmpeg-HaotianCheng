@@ -6,10 +6,7 @@ import main as run
 from pytest import approx
 
 
-currentDirectory = os.getcwd()
-
-
-def ffprobe_sync(filein: currentDirectory) -> dict:
+def ffprobe_sync(filein: Path) -> dict:
     """ get media metadata """
     meta = subprocess.check_output(['ffprobe', '-v', 'warning',
                                 	'-print_format', 'json',
@@ -51,4 +48,5 @@ def test_duration_720():
 
 if __name__ == "__main__":
     run.startThreeThreads()
-    test_duration()
+    test_duration_480()
+    test_duration_720()
